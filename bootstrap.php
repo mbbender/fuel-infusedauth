@@ -9,17 +9,17 @@
  */
 
 
-Autoloader::add_core_namespace('InfusedAuth');
+//Autoloader::add_core_namespace('InfusedAuth');
+
+\Fuel\Core\Autoloader::add_namespace('InfusedAuth', __DIR__.'/classes/');
 
 Autoloader::add_classes(array(
-    'InfusedAuth\\Auth_Login_InfusedAuth'      => __DIR__.'/classes/infusedauth.php',
-    'InfusedAuth\\SimpleUserValidationException'      => __DIR__.'/classes/infusedauth.php',
-    'InfusedAuth\\InfusedAuthException' => __DIR__.'/classes/infusedauth.php',
-
-    'InfusedAuth\\Model_User'      => __DIR__.'/classes/model/user.php',
-    'InfusedAuth\\Model_Temp_User'      => __DIR__.'/classes/model/temp_user.php',
-
-    'InfusedAuth\\Controller_Base' => __DIR__.'/classes/controller/base.php',
-    'InfusedAuth\\Controller_Admin' => __DIR__.'/classes/controller/admin.php',
-    'InfusedAuth\\Controller_Infusedauth' => __DIR__.'/classes/controller/infusedauth.php',
+    'NinjAuth\\Adapter_InfusedAuth' => __DIR__.'/classes/adapter/infusedauth.php',
+    'InfusedAuth\\Model_User' => __DIR__.'/classes/model/user.php',
+    'InfusedAuth\\Model_TempUser' => __DIR__.'/classes/model/tempuser.php'
 ));
+
+if(!class_exists('Model_User')) Autoloader::alias_to_namespace('InfusedAuth\\Model_User');
+if(!class_exists('Model_TempUser')) Autoloader::alias_to_namespace('InfusedAuth\\Model_TempUser');
+
+
