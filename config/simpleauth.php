@@ -61,20 +61,5 @@ return array(
 		 *   'super' => true,
 		 */
         'blocked' => false
-	),
-
-	/**
-	 * Salt for the login hash
-	 */
-	'login_hash_salt' => 'asdfa87fsha8f74h4afasdgwa43g',
-
-	/**
-	 * $_POST key for login username
-	 */
-	'username_post_key' => 'username',
-
-	/**
-	 * $_POST key for login password
-	 */
-	'password_post_key' => 'password',
+	)
 );
