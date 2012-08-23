@@ -1,11 +1,17 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: michael
- * Date: 8/14/12
- * Time: 10:32 AM
- * To change this template use File | Settings | File Templates.
+ * InfusedAuth is an add on to SimpleAuth
+ *
+ * Primary login driver that extends SimpleAuth. Most of the work gets done here!
+ *
+ * @package    InfusedAuth
+ * @version    2.0
+ * @author     Michael Bneder
+ * @license    MIT License
+ * @copyright  2012 Infused Industries, Inc.
+ * @link       https://github.com/michael-bender/fuel-infusedauth
  */
+
 
 namespace InfusedAuth;
 
@@ -16,6 +22,10 @@ class SimpleUserValidationException extends InfusedAuthException {}
 class Auth_Login_InfusedAuth extends \Auth\Auth_Login_SimpleAuth
 {
 
+    /**
+     * @static
+     * Loads simpleauth, ninjauth, and infused auth config files.
+     */
     public static function _init(){
         parent::_init();
         \Config::load('simpleauth',true,true,false);
@@ -25,15 +35,22 @@ class Auth_Login_InfusedAuth extends \Auth\Auth_Login_SimpleAuth
 
 
     /**
-     * Create new user
+     * This function either creates a new user of \Model_User or of \Model_TempUser. If the configuration setting of
+     * account_validation is set to true it will create a Model_TempUser and send the user an email which can be configured
+     * in the config file. If bypass_verification is set to true a Model_User will be created with no email verification
+     * regardless of settings.
      *
-     * @param   string
-     * @param   string
-     * @param   string  must contain valid email address
+     * If the beta_wall configuration is set it will assign the beta_group_id instead of the default.
+     *
+     * @param   string  username
+     * @param   string  password
+     * @param   string  email address
      * @param   int     group id
-     * @param   Array
-     * @return  bool
+     * @param   Array   profile fields
+     * @param   bool    thirdparty adapter making the call
+     * @param   bool    bypass_verification overrides config setting if verification is enabled
      * @throws SimpleUserUpdateException, SimpleUserValidationException
+     * @returns \Model_User|\Model_TempUser|false
      */
     public function create_user($username, $password, $email, $group = 1, Array $profile_fields = array(), $thirdparty=false, $bypass_verification=false)
     {

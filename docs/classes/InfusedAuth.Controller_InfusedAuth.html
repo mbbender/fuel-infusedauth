@@ -1,0 +1,274 @@
+<!DOCTYPE html><html xmlns:date="http://exslt.org/dates-and-times" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>phpDocumentor » \InfusedAuth\Controller_InfusedAuth</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">phpDocumentor</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Namespaces</a></li>
+<li><a href="../namespaces/Fuel.html"><i class="icon-th"></i> Fuel</a></li>
+<li><a href="../namespaces/InfusedAuth.html"><i class="icon-th"></i> InfusedAuth</a></li>
+<li><a href="../namespaces/NinjAuth.html"><i class="icon-th"></i> NinjAuth</a></li>
+<li><a>Packages</a></li>
+<li><a href="../packages/Default.html"><i class="icon-folder-open"></i> Default</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">56</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods</li>
+<li class="method public "><a href="#action_index" title="action_index :: Defaults to login view"><span class="description">Defaults to login view</span><pre>action_index()</pre></a></li>
+<li class="method public "><a href="#action_login" title="action_login :: "><span class="description">action_login()
+        </span><pre>action_login()</pre></a></li>
+<li class="method public "><a href="#action_logout" title="action_logout :: "><span class="description">action_logout()
+        </span><pre>action_logout()</pre></a></li>
+<li class="method public "><a href="#action_register" title="action_register :: "><span class="description">action_register()
+        </span><pre>action_register()</pre></a></li>
+<li class="method public "><a href="#action_send_validation_request" title="action_send_validation_request :: "><span class="description">action_send_validation_request()
+        </span><pre>action_send_validation_request()</pre></a></li>
+<li class="method public "><a href="#action_verify" title="action_verify :: "><span class="description">action_verify()
+        </span><pre>action_verify()</pre></a></li>
+<li class="method public "><a href="#action_wall" title="action_wall :: "><span class="description">action_wall()
+        </span><pre>action_wall()</pre></a></li>
+<li class="method public "><a href="#before" title="before :: "><span class="description">before()
+        </span><pre>before()</pre></a></li>
+<li class="method public "><a href="#login_view" title="login_view :: Override this function to customize the login view generation such as for themes or customized views outside
+the scope of just setting the location to your view file in the config setting."><span class="description">Override this function to customize the login view generation such as for themes or customized views outside
+the scope of just setting the location to your view file in the config setting.</span><pre>login_view()</pre></a></li>
+<li class="method public "><a href="#registration_view" title="registration_view :: Override this function to customize the login view generation such as for themes or customized views outside
+the scope of just setting the location to your view file in the config setting."><span class="description">Override this function to customize the login view generation such as for themes or customized views outside
+the scope of just setting the location to your view file in the config setting.</span><pre>registration_view()</pre></a></li>
+<li class="method public "><a href="#verification_pending_view" title="verification_pending_view :: "><span class="description">verification_pending_view()
+        </span><pre>verification_pending_view()</pre></a></li>
+<li class="method public "><a href="#wall_view" title="wall_view :: "><span class="description">wall_view()
+        </span><pre>wall_view()</pre></a></li>
+<li class="nav-header protected">» Protected</li>
+<li class="method protected "><a href="#build_profile_fields" title="build_profile_fields :: "><span class="description">build_profile_fields()
+        </span><pre>build_profile_fields()</pre></a></li>
+</ul>
+</div>
+<div class="span8">
+<a name="%5CInfusedAuth%5CController_InfusedAuth" id="\InfusedAuth\Controller_InfusedAuth"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/InfusedAuth.html">InfusedAuth</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/InfusedAuth.Controller_InfusedAuth.html">Controller_InfusedAuth</a>
+</li>
+</ul>
+<div href="../classes/InfusedAuth.Controller_InfusedAuth.html" class="element class">
+<p class="short_description">Baseline for implementing an authentication controller in your application using InfusedAuth.</p>
+<div class="details">
+<p class="long_description">You must create a controller that extends this controller such
+    class Controller_Auth extends \InfusedAuth\Controller_InfusedAuth
+
+Usage:
+You can use the built in view scaffolding by default or create your views and link actions as follows:
+3rd party login = /session/provider //see NinjAuth for more details
+properitery login = just post back to same script. you can override posthandler_login and posthandler_register to customize
+forgot password = /reset_password
+resend validation = /send_validation
+     - requires post values of username which is username_or_email and password
+
+Customizing Validation
+coming soon... TODO: Add validation customization info</p>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a name="action_index" id="action_index"></a><div class="element clickable method public action_index" data-toggle="collapse" data-target=".action_index .collapse">
+<h2>Defaults to login view</h2>
+<pre>action_index() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="action_login" id="action_login"></a><div class="element clickable method public action_login" data-toggle="collapse" data-target=".action_login .collapse">
+<h2>action_login()
+        </h2>
+<pre>action_login() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="action_logout" id="action_logout"></a><div class="element clickable method public action_logout" data-toggle="collapse" data-target=".action_logout .collapse">
+<h2>action_logout()
+        </h2>
+<pre>action_logout() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="action_register" id="action_register"></a><div class="element clickable method public action_register" data-toggle="collapse" data-target=".action_register .collapse">
+<h2>action_register()
+        </h2>
+<pre>action_register() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="action_send_validation_request" id="action_send_validation_request"></a><div class="element clickable method public action_send_validation_request" data-toggle="collapse" data-target=".action_send_validation_request .collapse">
+<h2>action_send_validation_request()
+        </h2>
+<pre>action_send_validation_request() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="action_verify" id="action_verify"></a><div class="element clickable method public action_verify" data-toggle="collapse" data-target=".action_verify .collapse">
+<h2>action_verify()
+        </h2>
+<pre>action_verify($code1, $code2) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$code1</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>$code2</h4>
+<code></code>
+</div>
+</div></div>
+</div>
+<a name="action_wall" id="action_wall"></a><div class="element clickable method public action_wall" data-toggle="collapse" data-target=".action_wall .collapse">
+<h2>action_wall()
+        </h2>
+<pre>action_wall() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="before" id="before"></a><div class="element clickable method public before" data-toggle="collapse" data-target=".before .collapse">
+<h2>before()
+        </h2>
+<pre>before() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="login_view" id="login_view"></a><div class="element clickable method public login_view" data-toggle="collapse" data-target=".login_view .collapse">
+<h2>Override this function to customize the login view generation such as for themes or customized views outside
+the scope of just setting the location to your view file in the config setting.</h2>
+<pre>login_view(\InfusedAuth\$data $data) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$data</h4>
+<code>\InfusedAuth\$data</code><p>View data. Recommend you add data to this vs. overwrite.</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>mixed</code></div>
+</div></div>
+</div>
+<a name="registration_view" id="registration_view"></a><div class="element clickable method public registration_view" data-toggle="collapse" data-target=".registration_view .collapse">
+<h2>Override this function to customize the login view generation such as for themes or customized views outside
+the scope of just setting the location to your view file in the config setting.</h2>
+<pre>registration_view(\InfusedAuth\$data $data) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$data</h4>
+<code>\InfusedAuth\$data</code><p>View data. Recommend you add data to this vs. overwrite.</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>mixed</code></div>
+</div></div>
+</div>
+<a name="verification_pending_view" id="verification_pending_view"></a><div class="element clickable method public verification_pending_view" data-toggle="collapse" data-target=".verification_pending_view .collapse">
+<h2>verification_pending_view()
+        </h2>
+<pre>verification_pending_view($data) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$data</h4>
+<code></code>
+</div>
+</div></div>
+</div>
+<a name="wall_view" id="wall_view"></a><div class="element clickable method public wall_view" data-toggle="collapse" data-target=".wall_view .collapse">
+<h2>wall_view()
+        </h2>
+<pre>wall_view($data) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$data</h4>
+<code></code>
+</div>
+</div></div>
+</div>
+<a name="build_profile_fields" id="build_profile_fields"></a><div class="element clickable method protected build_profile_fields" data-toggle="collapse" data-target=".build_profile_fields .collapse">
+<h2>build_profile_fields()
+        </h2>
+<pre>build_profile_fields(\InfusedAuth\$all_fields $all_fields, \InfusedAuth\$profile_fields $profile_fields) : \InfusedAuth\$profile</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$all_fields</h4>
+<code>\InfusedAuth\$all_fields</code><p>This is the Input::post() values for the submitted registration form</p>
+</div>
+<div class="subelement argument">
+<h4>$profile_fields</h4>
+<code>\InfusedAuth\$profile_fields</code><p>This ist he configuration value that identifies which fields to include in the profile</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>\InfusedAuth\$profile</code>Array of fields.</div>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a3</a> and<br>
+            generated on 2012-08-23T15:06:41-04:00.<br></footer></div>
+</div>
+</body>
+</html>

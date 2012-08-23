@@ -1,0 +1,755 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project version="2.0.0a3" title="">
+  <file path="config/form.php" hash="49468740a18900e506c59d2639fe8230" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file config/form.php</error>
+    </parse_markers>
+  </file>
+  <file path="config/infusedauth.php" hash="a98bc282074bdd2f56e7227251d39e62" package="InfusedAuth">
+    <docblock line="2">
+      <description><![CDATA[InfusedAuth is an add on to SimpleAuth]]></description>
+      <long-description><![CDATA[]]></long-description>
+      <tag line="2" name="package" description="InfusedAuth"/>
+      <tag line="2" name="version" description="1.0"/>
+      <tag line="2" name="author" description="Michael Bneder"/>
+      <tag line="2" name="license" description="Commercial License"/>
+      <tag line="2" name="copyright" description="2012 Infused Industries, Inc."/>
+      <tag line="2" name="link" description="http://sociablegroup.com" link="http://sociablegroup.com"/>
+    </docblock>
+  </file>
+  <file path="config/ninjauth.php" hash="5cd18a686ea71a99c48350731400abc7" package="Default">
+    <docblock line="2">
+      <description><![CDATA[Configuration for NinjAuth]]></description>
+      <long-description><![CDATA[]]></long-description>
+    </docblock>
+  </file>
+  <file path="config/simpleauth.php" hash="0eaca4de2d73b8ebc5264a673b192396" package="Fuel">
+    <docblock line="2">
+      <description><![CDATA[Fuel is a fast, lightweight, community driven PHP5 framework.]]></description>
+      <long-description><![CDATA[]]></long-description>
+      <tag line="2" name="package" description="Fuel"/>
+      <tag line="2" name="version" description="1.0"/>
+      <tag line="2" name="author" description="Fuel Development Team"/>
+      <tag line="2" name="license" description="MIT License"/>
+      <tag line="2" name="copyright" description="2010 - 2011 Fuel Development Team"/>
+      <tag line="2" name="link" description="http://fuelphp.com" link="http://fuelphp.com"/>
+    </docblock>
+  </file>
+  <file path="classes/controller/infusedauth.php" hash="8638a0dcba0f32e07cd72e95f639caf0" package="Default">
+    <docblock line="2">
+      <description><![CDATA[Created by JetBrains PhpStorm.]]></description>
+      <long-description><![CDATA[User: michael
+Date: 8/14/12
+Time: 11:06 AM
+To change this template use File | Settings | File Templates.]]></long-description>
+    </docblock>
+    <parse_markers>
+      <error line="31" code="50010">No DocBlock was found for method before()</error>
+      <error line="70" code="50010">No DocBlock was found for method action_login()</error>
+      <error line="114" code="50010">No DocBlock was found for method action_register()</error>
+      <error line="193" code="50012">No short description for method build_profile_fields()</error>
+      <error line="209" code="50010">No DocBlock was found for method action_logout()</error>
+      <error line="218" code="50010">No DocBlock was found for method verification_pending_view()</error>
+      <error line="223" code="50010">No DocBlock was found for method action_verify()</error>
+      <error line="264" code="50010">No DocBlock was found for method action_send_validation_request()</error>
+      <error line="270" code="50010">No DocBlock was found for method action_wall()</error>
+      <error line="274" code="50010">No DocBlock was found for method wall_view()</error>
+    </parse_markers>
+    <class final="false" abstract="false" namespace="InfusedAuth" line="29" package="Default">
+      <name>Controller_InfusedAuth</name>
+      <full_name>\InfusedAuth\Controller_InfusedAuth</full_name>
+      <extends>\NinjAuth\Controller</extends>
+      <docblock line="12">
+        <description><![CDATA[Baseline for implementing an authentication controller in your application using InfusedAuth.]]></description>
+        <long-description><![CDATA[You must create a controller that extends this controller such
+    class Controller_Auth extends \InfusedAuth\Controller_InfusedAuth
+
+Usage:
+You can use the built in view scaffolding by default or create your views and link actions as follows:
+3rd party login = /session/provider //see NinjAuth for more details
+properitery login = just post back to same script. you can override posthandler_login and posthandler_register to customize
+forgot password = /reset_password
+resend validation = /send_validation
+     - requires post values of username which is username_or_email and password
+
+Customizing Validation
+coming soon... TODO: Add validation customization info]]></long-description>
+      </docblock>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="InfusedAuth" line="31" package="">
+        <name>before</name>
+        <type>function</type>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="InfusedAuth" line="60" package="">
+        <name>action_index</name>
+        <type>function</type>
+        <docblock line="57">
+          <description><![CDATA[Defaults to login view]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="InfusedAuth" line="70" package="">
+        <name>action_login</name>
+        <type>function</type>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="InfusedAuth" line="105" package="">
+        <name>login_view</name>
+        <type>function</type>
+        <docblock line="99">
+          <description><![CDATA[Override this function to customize the login view generation such as for themes or customized views outside
+the scope of just setting the location to your view file in the config setting.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="99" name="param" description="View data. Recommend you add data to this vs. overwrite." type="\InfusedAuth\$data" variable="$data">
+            <type by_reference="false">\InfusedAuth\$data</type>
+          </tag>
+          <tag line="99" name="return" description="" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="105">
+          <name>$data</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="InfusedAuth" line="114" package="">
+        <name>action_register</name>
+        <type>function</type>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="InfusedAuth" line="188" package="">
+        <name>registration_view</name>
+        <type>function</type>
+        <docblock line="182">
+          <description><![CDATA[Override this function to customize the login view generation such as for themes or customized views outside
+the scope of just setting the location to your view file in the config setting.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="182" name="param" description="View data. Recommend you add data to this vs. overwrite." type="\InfusedAuth\$data" variable="$data">
+            <type by_reference="false">\InfusedAuth\$data</type>
+          </tag>
+          <tag line="182" name="return" description="" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="188">
+          <name>$data</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="InfusedAuth" line="198" package="">
+        <name>build_profile_fields</name>
+        <type>function</type>
+        <docblock line="193">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="193" name="param" description="This is the Input::post() values for the submitted registration form" type="\InfusedAuth\$all_fields" variable="$all_fields">
+            <type by_reference="false">\InfusedAuth\$all_fields</type>
+          </tag>
+          <tag line="193" name="param" description="This ist he configuration value that identifies which fields to include in the profile" type="\InfusedAuth\$profile_fields" variable="$profile_fields">
+            <type by_reference="false">\InfusedAuth\$profile_fields</type>
+          </tag>
+          <tag line="193" name="return" description="Array of fields." type="\InfusedAuth\$profile">
+            <type by_reference="false">\InfusedAuth\$profile</type>
+          </tag>
+        </docblock>
+        <argument line="198">
+          <name>$all_fields</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="198">
+          <name>$profile_fields</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="InfusedAuth" line="209" package="">
+        <name>action_logout</name>
+        <type>function</type>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="InfusedAuth" line="218" package="">
+        <name>verification_pending_view</name>
+        <type>function</type>
+        <argument line="218">
+          <name>$data</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="InfusedAuth" line="223" package="">
+        <name>action_verify</name>
+        <type>function</type>
+        <argument line="223">
+          <name>$code1</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+        <argument line="223">
+          <name>$code2</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="InfusedAuth" line="264" package="">
+        <name>action_send_validation_request</name>
+        <type>function</type>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="InfusedAuth" line="270" package="">
+        <name>action_wall</name>
+        <type>function</type>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="InfusedAuth" line="274" package="">
+        <name>wall_view</name>
+        <type>function</type>
+        <argument line="274">
+          <name>$data</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+  </file>
+  <file path="classes/controller/base.php" hash="4c699c4800c75d1e5bcd9610e6383719" package="Default">
+    <parse_markers>
+      <error line="7" code="50010">No DocBlock was found for method before()</error>
+      <error line="5" code="50000">No DocBlock was found for Controller_Base</error>
+      <error line="1" code="50007">No page-level DocBlock was found in file classes/controller/base.php</error>
+    </parse_markers>
+    <class final="false" abstract="false" namespace="InfusedAuth" line="5" package="Default">
+      <name>Controller_Base</name>
+      <full_name>\InfusedAuth\Controller_Base</full_name>
+      <extends>\Controller_Hybrid</extends>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="InfusedAuth" line="7" package="">
+        <name>before</name>
+        <type>function</type>
+      </method>
+    </class>
+  </file>
+  <file path="classes/model/tempuser.php" hash="ebc24e60c2b67b8a197d0f51eaa2ccf4" package="InfusedAuth">
+    <docblock line="2">
+      <description><![CDATA[InfusedAuth is an add on to SimpleAuth]]></description>
+      <long-description><![CDATA[]]></long-description>
+      <tag line="2" name="package" description="InfusedAuth"/>
+      <tag line="2" name="version" description="1.0"/>
+      <tag line="2" name="author" description="Michael Bneder"/>
+      <tag line="2" name="license" description="Commercial License"/>
+      <tag line="2" name="copyright" description="2012 Infused Industries, Inc."/>
+      <tag line="2" name="link" description="http://sociablegroup.com" link="http://sociablegroup.com"/>
+    </docblock>
+    <parse_markers>
+      <error line="16" code="50018">No DocBlock was found for property $_table_name</error>
+      <error line="18" code="50018">No DocBlock was found for property $_properties</error>
+      <error line="31" code="50018">No DocBlock was found for property $_observers</error>
+      <error line="14" code="50000">No DocBlock was found for Model_TempUser</error>
+    </parse_markers>
+    <class final="false" abstract="false" namespace="InfusedAuth" line="14" package="Default">
+      <name>Model_TempUser</name>
+      <full_name>\InfusedAuth\Model_TempUser</full_name>
+      <extends>\Orm\Model</extends>
+      <property final="false" static="true" visibility="protected" line="16" package="Default">
+        <name>$_table_name</name>
+        <default><![CDATA['users_temp']]></default>
+      </property>
+      <property final="false" static="true" visibility="protected" line="18" package="Default">
+        <name>$_properties</name>
+        <default><![CDATA[array(
+        'id',
+        'username',
+        'password',
+        'group',
+        'email',
+        'profile_fields',
+        'validation_code1',
+        'validation_code2',
+        'created_at',
+        'updated_at'
+    )]]></default>
+      </property>
+      <property final="false" static="true" visibility="protected" line="31" package="Default">
+        <name>$_observers</name>
+        <default><![CDATA[array(
+        'Orm\Observer_CreatedAt' => array(
+            'events' => array('before_insert'),
+            'mysql_timestamp' => false,
+        ),
+        'Orm\Observer_UpdatedAt' => array(
+            'events' => array('before_save'),
+            'mysql_timestamp' => false,
+        ),
+    )]]></default>
+      </property>
+    </class>
+  </file>
+  <file path="classes/model/user.php" hash="c983b6845a933582be528345c9c48f96" package="Default">
+    <parse_markers>
+      <error line="8" code="50018">No DocBlock was found for property $_properties</error>
+      <error line="21" code="50018">No DocBlock was found for property $_observers</error>
+      <error line="32" code="50010">No DocBlock was found for method profile_fields()</error>
+      <error line="5" code="50000">No DocBlock was found for Model_User</error>
+      <error line="1" code="50007">No page-level DocBlock was found in file classes/model/user.php</error>
+    </parse_markers>
+    <class final="false" abstract="false" namespace="InfusedAuth" line="5" package="Default">
+      <name>Model_User</name>
+      <full_name>\InfusedAuth\Model_User</full_name>
+      <extends>\Orm\Model</extends>
+      <property final="false" static="true" visibility="protected" line="8" package="Default">
+        <name>$_properties</name>
+        <default><![CDATA[array(
+        'id',
+        'username',
+        'password',
+        'group',
+        'email',
+        'last_login',
+        'login_hash',
+        'profile_fields',
+        'created_at',
+        'updated_at'
+    )]]></default>
+      </property>
+      <property final="false" static="true" visibility="protected" line="21" package="Default">
+        <name>$_observers</name>
+        <default><![CDATA[array(
+        'Orm\Observer_CreatedAt' => array(
+            'events' => array('before_insert'),
+            'mysql_timestamp' => false,
+        ),
+        'Orm\Observer_UpdatedAt' => array(
+            'events' => array('before_save'),
+            'mysql_timestamp' => false,
+        ),
+    )]]></default>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="InfusedAuth" line="32" package="">
+        <name>profile_fields</name>
+        <type>function</type>
+        <argument line="32">
+          <name>$field_name</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+  </file>
+  <file path="classes/adapter/infusedauth.php" hash="925af69c8112187959f457e005742301" package="InfusedAuth">
+    <docblock line="2">
+      <description><![CDATA[InfusedAuth is an add on to SimpleAuth]]></description>
+      <long-description><![CDATA[This is an adapter to link InfusedAuth to NinjAuth.]]></long-description>
+      <tag line="2" name="package" description="InfusedAuth"/>
+      <tag line="2" name="version" description="2.0"/>
+      <tag line="2" name="author" description="Michael Bneder"/>
+      <tag line="2" name="license" description="MIT License"/>
+      <tag line="2" name="copyright" description="2012 Infused Industries, Inc."/>
+      <tag line="2" name="link" description="https://github.com/michael-bender/fuel-infusedauth" link="https://github.com/michael-bender/fuel-infusedauth"/>
+    </docblock>
+    <parse_markers>
+      <error line="17" code="50000">No DocBlock was found for Adapter_InfusedAuth</error>
+    </parse_markers>
+    <class final="false" abstract="false" namespace="NinjAuth" line="17" package="Default">
+      <name>Adapter_InfusedAuth</name>
+      <full_name>\NinjAuth\Adapter_InfusedAuth</full_name>
+      <extends>\NinjAuth\Adapter_SimpleAuth</extends>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="NinjAuth" line="31" package="">
+        <name>create_user</name>
+        <type>function</type>
+        <docblock line="20">
+          <description><![CDATA[This function parses the various 3rd party accounts to turn them into consistent user profile information.]]></description>
+          <long-description><![CDATA[If username is not set, we set username equal to uid
+If password is not set, we set password to a random string
+If image is available we set it as avatar in a profile field.
+If urls is set we set it as urls in a profile field.
+If name is set we set it as full_name in a profile field.]]></long-description>
+          <tag line="20" name="param" description="Expects username|uid, email" type="array" variable="$user_hash">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="20" name="return" description="" type="\NinjAuth\user_id|false">
+            <type by_reference="false">\NinjAuth\user_id</type>
+            <type by_reference="false">false</type>
+          </tag>
+        </docblock>
+        <argument line="31">
+          <name>$user_hash</name>
+          <default><![CDATA[]]></default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="NinjAuth" line="85" package="">
+        <name>can_auto_login</name>
+        <type>function</type>
+        <docblock line="77">
+          <description><![CDATA[We always return true and allow the user to login. This might cause issues and should be updated. If update
+this to return false it results in NinjAuth storing all the info we did collect into Session and sending a
+register indication which will be redirected to the configs url.register_redirect, hypothetically allowing a user
+to add more information to complete registration.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="77" name="param" description="" type="array" variable="$user_hash">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="77" name="return" description="" type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="85">
+          <name>$user_hash</name>
+          <default><![CDATA[]]></default>
+          <type>array</type>
+        </argument>
+      </method>
+    </class>
+  </file>
+  <file path="classes/auth/acl/infusedacl.php" hash="ad591e8c13a16919aff6b74ac6a6fddf" package="InfusedAuth">
+    <docblock line="2">
+      <description><![CDATA[InfusedAuth is an add on to SimpleAuth]]></description>
+      <long-description><![CDATA[Not currently used. Here for a placeholder to add enhanced ACL if needed.]]></long-description>
+      <tag line="2" name="package" description="InfusedAuth"/>
+      <tag line="2" name="version" description="2.0"/>
+      <tag line="2" name="author" description="Michael Bneder"/>
+      <tag line="2" name="license" description="MIT License"/>
+      <tag line="2" name="copyright" description="2012 Infused Industries, Inc."/>
+      <tag line="2" name="link" description="https://github.com/michael-bender/fuel-infusedauth" link="https://github.com/michael-bender/fuel-infusedauth"/>
+    </docblock>
+    <parse_markers>
+      <error line="18" code="50000">No DocBlock was found for Auth_Acl_InfusedAcl</error>
+    </parse_markers>
+    <class final="false" abstract="false" namespace="InfusedAuth" line="18" package="Default">
+      <name>Auth_Acl_InfusedAcl</name>
+      <full_name>\InfusedAuth\Auth_Acl_InfusedAcl</full_name>
+      <extends>\Auth\Auth_Acl_SimpleAcl</extends>
+    </class>
+  </file>
+  <file path="classes/auth/group/infusedgroup.php" hash="f19d63bb8bb62da1fb1a63989ccf2526" package="InfusedAuth">
+    <docblock line="2">
+      <description><![CDATA[InfusedAuth is an add on to SimpleAuth]]></description>
+      <long-description><![CDATA[Not used. Here to add advanced group options if needed.]]></long-description>
+      <tag line="2" name="package" description="InfusedAuth"/>
+      <tag line="2" name="version" description="2.0"/>
+      <tag line="2" name="author" description="Michael Bneder"/>
+      <tag line="2" name="license" description="MIT License"/>
+      <tag line="2" name="copyright" description="2012 Infused Industries, Inc."/>
+      <tag line="2" name="link" description="https://github.com/michael-bender/fuel-infusedauth" link="https://github.com/michael-bender/fuel-infusedauth"/>
+    </docblock>
+    <parse_markers>
+      <error line="18" code="50000">No DocBlock was found for Auth_Group_InfusedGroup</error>
+    </parse_markers>
+    <class final="false" abstract="false" namespace="InfusedAuth" line="18" package="Default">
+      <name>Auth_Group_InfusedGroup</name>
+      <full_name>\InfusedAuth\Auth_Group_InfusedGroup</full_name>
+      <extends>\Auth\Auth_Group_SimpleGroup</extends>
+    </class>
+  </file>
+  <file path="classes/auth/login/infusedauth.php" hash="103fe760db68d7a8db03f7f5568d8e6d" package="InfusedAuth">
+    <docblock line="2">
+      <description><![CDATA[InfusedAuth is an add on to SimpleAuth]]></description>
+      <long-description><![CDATA[Primary login driver that extends SimpleAuth. Most of the work gets done here!]]></long-description>
+      <tag line="2" name="package" description="InfusedAuth"/>
+      <tag line="2" name="version" description="2.0"/>
+      <tag line="2" name="author" description="Michael Bneder"/>
+      <tag line="2" name="license" description="MIT License"/>
+      <tag line="2" name="copyright" description="2012 Infused Industries, Inc."/>
+      <tag line="2" name="link" description="https://github.com/michael-bender/fuel-infusedauth" link="https://github.com/michael-bender/fuel-infusedauth"/>
+    </docblock>
+    <parse_markers>
+      <error line="20" code="50000">No DocBlock was found for InfusedAuthException</error>
+      <error line="21" code="50000">No DocBlock was found for SimpleUserValidationException</error>
+      <error line="25" code="50012">No short description for method _init()</error>
+      <error line="173" code="50012">No short description for method send_validation()</error>
+      <error line="263" code="50014">Name of argument $username_or_email does not match with the DocBlock's name $email in validate_tempuser()</error>
+      <notice line="263" code="50013">Parameter $email could not be found in validate_tempuser()</notice>
+      <error line="291" code="50010">No DocBlock was found for method send_signup_system_notification()</error>
+      <error line="315" code="50010">No DocBlock was found for method get_profile_fields()</error>
+      <error line="22" code="50000">No DocBlock was found for Auth_Login_InfusedAuth</error>
+    </parse_markers>
+    <namespace-alias name="SimpleUserUpdateException">\Auth\SimpleUserUpdateException</namespace-alias>
+    <class final="false" abstract="false" namespace="InfusedAuth" line="20" package="Default">
+      <name>InfusedAuthException</name>
+      <full_name>\InfusedAuth\InfusedAuthException</full_name>
+      <extends>\FuelException</extends>
+    </class>
+    <class final="false" abstract="false" namespace="InfusedAuth" line="21" package="Default">
+      <name>SimpleUserValidationException</name>
+      <full_name>\InfusedAuth\SimpleUserValidationException</full_name>
+      <extends>\InfusedAuth\InfusedAuthException</extends>
+    </class>
+    <class final="false" abstract="false" namespace="InfusedAuth" line="22" package="Default">
+      <name>Auth_Login_InfusedAuth</name>
+      <full_name>\InfusedAuth\Auth_Login_InfusedAuth</full_name>
+      <extends>\Auth\Auth_Login_SimpleAuth</extends>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="InfusedAuth" line="29" package="">
+        <name>_init</name>
+        <type>function</type>
+        <docblock line="25">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="25" name="static" description="Loads simpleauth, ninjauth, and infused auth config files."/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="InfusedAuth" line="55" package="">
+        <name>create_user</name>
+        <type>function</type>
+        <docblock line="37">
+          <description><![CDATA[This function either creates a new user of \Model_User or of \Model_TempUser. If the configuration setting of
+account_validation is set to true it will create a Model_TempUser and send the user an email which can be configured
+in the config file. If bypass_verification is set to true a Model_User will be created with no email verification
+regardless of settings.]]></description>
+          <long-description><![CDATA[If the beta_wall configuration is set it will assign the beta_group_id instead of the default.]]></long-description>
+          <tag line="37" name="param" description="username" type="string" variable="$username">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="37" name="param" description="password" type="string" variable="$password">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="37" name="param" description="email address" type="string" variable="$email">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="37" name="param" description="group id" type="int" variable="$group">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="37" name="param" description="profile fields" type="Array" variable="$profile_fields">
+            <type by_reference="false">Array</type>
+          </tag>
+          <tag line="37" name="param" description="thirdparty adapter making the call" type="bool" variable="$thirdparty">
+            <type by_reference="false">bool</type>
+          </tag>
+          <tag line="37" name="param" description="bypass_verification overrides config setting if verification is enabled" type="bool" variable="$bypass_verification">
+            <type by_reference="false">bool</type>
+          </tag>
+          <tag line="37" name="throws" description="SimpleUserValidationException" type="\InfusedAuth\SimpleUserUpdateException,">
+            <type by_reference="false">\InfusedAuth\SimpleUserUpdateException,</type>
+          </tag>
+          <tag line="37" name="returns" description="\Model_User|\Model_TempUser|false"/>
+        </docblock>
+        <argument line="55">
+          <name>$username</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="55">
+          <name>$password</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="55">
+          <name>$email</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="55">
+          <name>$group</name>
+          <default><![CDATA[1]]></default>
+          <type/>
+        </argument>
+        <argument line="55">
+          <name>$profile_fields</name>
+          <default><![CDATA[array()]]></default>
+          <type>Array</type>
+        </argument>
+        <argument line="55">
+          <name>$thirdparty</name>
+          <default><![CDATA[false]]></default>
+          <type/>
+        </argument>
+        <argument line="55">
+          <name>$bypass_verification</name>
+          <default><![CDATA[false]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="InfusedAuth" line="178" package="">
+        <name>send_validation</name>
+        <type>function</type>
+        <docblock line="173">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="173" name="param" description="" type="" variable="$temp_user_id"/>
+          <tag line="173" name="return" description="" type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+          <tag line="173" name="throws" description="" type="\InfusedAuth\SimpleUserValidationException">
+            <type by_reference="false">\InfusedAuth\SimpleUserValidationException</type>
+          </tag>
+        </docblock>
+        <argument line="178">
+          <name>$temp_user_id</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="InfusedAuth" line="223" package="">
+        <name>verify</name>
+        <type>function</type>
+        <docblock line="216">
+          <description><![CDATA[Uses email to check to see if the user has connected with Facebook or another way and already verified
+their account that way.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="216" name="param" description="" type="" variable="$code1"/>
+          <tag line="216" name="param" description="" type="" variable="$code2"/>
+          <tag line="216" name="return" description="" type="bool|\Model_User">
+            <type by_reference="false">bool</type>
+            <type by_reference="false">\Model_User</type>
+          </tag>
+        </docblock>
+        <argument line="223">
+          <name>$code1</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="223">
+          <name>$code2</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="InfusedAuth" line="268" package="">
+        <name>validate_tempuser</name>
+        <type>function</type>
+        <docblock line="263">
+          <description><![CDATA[Identifies if the credentials belong to a temp_user]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="263" name="param" description="" type="" variable="$email"/>
+          <tag line="263" name="param" description="" type="" variable="$password"/>
+        </docblock>
+        <argument line="268">
+          <name>$username_or_email</name>
+          <default><![CDATA['']]></default>
+          <type/>
+        </argument>
+        <argument line="268">
+          <name>$password</name>
+          <default><![CDATA['']]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="InfusedAuth" line="291" package="">
+        <name>send_signup_system_notification</name>
+        <type>function</type>
+        <argument line="291">
+          <name>$user</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="InfusedAuth" line="315" package="">
+        <name>get_profile_fields</name>
+        <type>function</type>
+      </method>
+    </class>
+  </file>
+  <file path="views/register.php" hash="551a24c730e8842263471e1c24cb7cc8" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file views/register.php</error>
+    </parse_markers>
+  </file>
+  <file path="views/reset_password_email.php" hash="b027a0c512a7b31f02d8c6cde9ccef56" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file views/reset_password_email.php</error>
+    </parse_markers>
+  </file>
+  <file path="views/template.php" hash="5e64533c491dcd48184fbca233856d13" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file views/template.php</error>
+    </parse_markers>
+  </file>
+  <file path="views/reset_success.php" hash="1a09575fa83daf86b9d3c78d145a26ba" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file views/reset_success.php</error>
+    </parse_markers>
+  </file>
+  <file path="views/login.php" hash="06ed141237dad4798cb847343ce3b0c1" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file views/login.php</error>
+    </parse_markers>
+  </file>
+  <file path="views/registration_success.php" hash="373efbad183847380059732957b0af3c" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file views/registration_success.php</error>
+    </parse_markers>
+  </file>
+  <file path="views/reset_password.php" hash="f93a5c1885a9bd8f788c4aa67bfbc73d" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file views/reset_password.php</error>
+    </parse_markers>
+  </file>
+  <file path="views/system/new_user_email.php" hash="e852fb915ca4ce0626c678227455337d" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file views/system/new_user_email.php</error>
+    </parse_markers>
+  </file>
+  <file path="views/account_confirmation_email.php" hash="b7baff7aca8b95e602fbc0a0e50c20fc" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file views/account_confirmation_email.php</error>
+    </parse_markers>
+  </file>
+  <file path="views/wall.php" hash="83023e48d7b7fed407679a10923de178" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file views/wall.php</error>
+    </parse_markers>
+  </file>
+  <file path="views/verification_failed.php" hash="55568390b4a7a27ef47ea29b697b4e3e" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file views/verification_failed.php</error>
+    </parse_markers>
+  </file>
+  <file path="views/login_bak.php" hash="34b3aa9418137c411e47fdf1f7d44e8e" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file views/login_bak.php</error>
+    </parse_markers>
+  </file>
+  <file path="migrations/001_create_users.php" hash="c651ed7fd8ff426228d4404161aaa241" package="Default">
+    <parse_markers>
+      <error line="7" code="50010">No DocBlock was found for method up()</error>
+      <error line="32" code="50010">No DocBlock was found for method down()</error>
+      <error line="5" code="50000">No DocBlock was found for Create_users</error>
+      <error line="1" code="50007">No page-level DocBlock was found in file migrations/001_create_users.php</error>
+    </parse_markers>
+    <class final="false" abstract="false" namespace="Fuel\Migrations" line="5" package="Default">
+      <name>Create_users</name>
+      <full_name>\Fuel\Migrations\Create_users</full_name>
+      <extends/>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Fuel\Migrations" line="7" package="">
+        <name>up</name>
+        <type>function</type>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Fuel\Migrations" line="32" package="">
+        <name>down</name>
+        <type>function</type>
+      </method>
+    </class>
+  </file>
+  <file path="migrations/002_create_users_temp.php" hash="eb8e3460493925eb2cb11541344b5475" package="Default">
+    <parse_markers>
+      <error line="7" code="50010">No DocBlock was found for method up()</error>
+      <error line="32" code="50010">No DocBlock was found for method down()</error>
+      <error line="5" code="50000">No DocBlock was found for Create_users</error>
+      <error line="1" code="50007">No page-level DocBlock was found in file migrations/002_create_users_temp.php</error>
+    </parse_markers>
+    <class final="false" abstract="false" namespace="Fuel\Migrations" line="5" package="Default">
+      <name>Create_users</name>
+      <full_name>\Fuel\Migrations\Create_users</full_name>
+      <extends/>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Fuel\Migrations" line="7" package="">
+        <name>up</name>
+        <type>function</type>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Fuel\Migrations" line="32" package="">
+        <name>down</name>
+        <type>function</type>
+      </method>
+    </class>
+  </file>
+  <file path="bootstrap.php" hash="4fb82ab73e894bf44bd3e9ab586d234a" package="Default">
+    <parse_markers>
+      <error line="1" code="50007">No page-level DocBlock was found in file bootstrap.php</error>
+    </parse_markers>
+  </file>
+  <package name="" full_name=""/>
+  <package name="Default" full_name="Default"/>
+  <package name="Fuel" full_name="Fuel"/>
+  <package name="InfusedAuth" full_name="InfusedAuth"/>
+  <namespace name="Fuel" full_name="Fuel">
+    <namespace name="Migrations" full_name="Fuel\Migrations"/>
+  </namespace>
+  <namespace name="InfusedAuth" full_name="InfusedAuth"/>
+  <namespace name="NinjAuth" full_name="NinjAuth"/>
+  <marker count="0">todo</marker>
+  <marker count="0">fixme</marker>
+  <deprecated count="0"/>
+</project>
