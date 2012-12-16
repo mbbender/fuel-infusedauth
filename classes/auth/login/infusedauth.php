@@ -1,31 +1,21 @@
 <?php
 /**
- * InfusedAuth is an add on to SimpleAuth
- *
- * Primary login driver that extends SimpleAuth. Most of the work gets done here!
- *
- * @package    InfusedAuth
- * @version    2.0
- * @author     Michael Bneder
- * @license    MIT License
- * @copyright  2012 Infused Industries, Inc.
- * @link       https://github.com/michael-bender/fuel-infusedauth
+ * Created by JetBrains PhpStorm.
+ * User: michael
+ * Date: 8/14/12
+ * Time: 10:32 AM
+ * To change this template use File | Settings | File Templates.
  */
-
 
 namespace InfusedAuth;
 
 use \Auth\SimpleUserUpdateException;
 
-class InfusedAuthException extends \FuelException{}
+class InfusedAuthException extends \Fuel\Core\FuelException{}
 class SimpleUserValidationException extends InfusedAuthException {}
 class Auth_Login_InfusedAuth extends \Auth\Auth_Login_SimpleAuth
 {
 
-    /**
-     * @static
-     * Loads simpleauth, ninjauth, and infused auth config files.
-     */
     public static function _init(){
         parent::_init();
         \Config::load('simpleauth',true,true,false);
@@ -35,22 +25,15 @@ class Auth_Login_InfusedAuth extends \Auth\Auth_Login_SimpleAuth
 
 
     /**
-     * This function either creates a new user of \Model_User or of \Model_TempUser. If the configuration setting of
-     * account_validation is set to true it will create a Model_TempUser and send the user an email which can be configured
-     * in the config file. If bypass_verification is set to true a Model_User will be created with no email verification
-     * regardless of settings.
+     * Create new user
      *
-     * If the beta_wall configuration is set it will assign the beta_group_id instead of the default.
-     *
-     * @param   string  username
-     * @param   string  password
-     * @param   string  email address
+     * @param   string
+     * @param   string
+     * @param   string  must contain valid email address
      * @param   int     group id
-     * @param   Array   profile fields
-     * @param   bool    thirdparty adapter making the call
-     * @param   bool    bypass_verification overrides config setting if verification is enabled
+     * @param   Array
+     * @return  bool
      * @throws SimpleUserUpdateException, SimpleUserValidationException
-     * @returns \Model_User|\Model_TempUser|false
      */
     public function create_user($username, $password, $email, $group = 1, Array $profile_fields = array(), $thirdparty=false, $bypass_verification=false)
     {
@@ -101,11 +84,11 @@ class Auth_Login_InfusedAuth extends \Auth\Auth_Login_SimpleAuth
             {
                 if (in_array(strtolower($email), array_map('strtolower', $same_users->current())))
                 {
-                    throw new SimpleUserUpdateException('Email address already exists', 4, $same_users[0]['id']);
+                    throw new SimpleUserUpdateException('Email address already exists', 4);
                 }
                 else
                 {
-                    throw new SimpleUserUpdateException('Username already exists', 5, $same_users[0]['id']);
+                    throw new SimpleUserUpdateException('Username already exists', 5);
                 }
             }
 
@@ -157,6 +140,7 @@ class Auth_Login_InfusedAuth extends \Auth\Auth_Login_SimpleAuth
                 $temp_user = \Model_TempUser::find_by_email($user_data['email']);
                 if(!empty($temp_user)) $temp_user->delete();
 
+                if(\Config::get('infusedauth.send_welcome_email', false)) $this->send_user_welcome($user);
                 if(\Config::get('infusedauth.send_user_signup_notification_to_system',false)) $this->send_signup_system_notification($user);
                 return $user;
             }
@@ -295,7 +279,7 @@ class Auth_Login_InfusedAuth extends \Auth\Auth_Login_SimpleAuth
 
         \Package::load('email');
         $email = \Email::forge();
-        $email->from(\Config::get('email.defaults.from.email',false),\Config::get('email.defaults.from.name',false));
+        $email->from(\Config::get('email.defaults.from.email',false),'SF System');
         $email->to($to_address);
         //$email->to('michael@sociablegroup.com');
         $email->subject(\Config::get('app.name','').' New user created.');
@@ -331,6 +315,34 @@ class Auth_Login_InfusedAuth extends \Auth\Auth_Login_SimpleAuth
         return $this->user['profile_fields'];
     }
 
+    public function send_user_welcome($user)
+    {
+        $to_address = $user->email;
+        if(empty($to_address)) throw new InfusedAuthException('Unable to get user email address to send welcome message.');
+
+        \Package::load('email');
+        $email = \Email::forge();
+        $email->from(\Config::get('email.defaults.from.email2',false),\Config::get('app.name','My App'));
+        $email->to($to_address);
+        $email->subject(\Config::get('infusedauth.welcome_email_subject','Welcome'),'Welcome');
+
+        if(\Config::get('infusedauth.use_theme_views',false)){
+            $email->html_body(\Theme::instance()->view(\Config::get('infusedauth.welcome_email_view','email/welcome_email'),array('user'=>$user,'profile'=>$user->profile_fields()),false));
+        }else{
+            $email->html_body(\View::forge(\Config::get('infusedauth.welcome_email_view','email/welcome_email'),array('user'=>$user,'profile'=>$user->profile_fields()),false));
+        }
+
+        try{
+            $email->send();
+        }
+
+        catch(\EmailValidationFailedException $e){
+            \Log::error('Unable to send email notification. '.$e->getMessage());
+        }
+        catch(\EmailSendingFailedException $e){
+            \Log::error('Unable to send email notification. '.$e->getMessage());
+        }
+    }
 
 
 }

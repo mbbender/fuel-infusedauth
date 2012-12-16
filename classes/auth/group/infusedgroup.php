@@ -1,17 +1,11 @@
 <?php
 /**
- * InfusedAuth is an add on to SimpleAuth
- *
- * Not used. Here to add advanced group options if needed.
- *
- * @package    InfusedAuth
- * @version    2.0
- * @author     Michael Bneder
- * @license    MIT License
- * @copyright  2012 Infused Industries, Inc.
- * @link       https://github.com/michael-bender/fuel-infusedauth
+ * Created by JetBrains PhpStorm.
+ * User: michael
+ * Date: 8/14/12
+ * Time: 10:32 AM
+ * To change this template use File | Settings | File Templates.
  */
-
 
 namespace InfusedAuth;
 

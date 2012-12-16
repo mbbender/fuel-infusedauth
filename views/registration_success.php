@@ -5,7 +5,7 @@
         $('#message').fadeOut(function(){
             $('#message').text("Sending verification email")
         }).fadeIn();
-        $.post('<?php echo isset($resend_action) ? $resend_action : 'send_validation_request' ?>','user_id=<?php echo $user->id?>', function(data){
+        $.post('<?php echo isset($resend_action) ? $resend_action : 'resend_verification_request' ?>','user_id=<?php echo $user_id?>', function(data){
             if(data.success)
             {
                 $('#heading').text('Resend completed successfully.');

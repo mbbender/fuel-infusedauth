@@ -2,7 +2,7 @@
 
 namespace Fuel\Migrations;
 
-class Create_users {
+class Create_users_temp {
 
 	public function up()
 	{
@@ -26,7 +26,7 @@ class Create_users {
             'utf8_bin'
         );
 		
-		\DBUtil::create_index('users', array('username','email'), 'email_uname', 'unique');
+		\DBUtil::create_index('users_temp', array('username','email'), 'email_uname', 'unique');
 	}
 
 	public function down()

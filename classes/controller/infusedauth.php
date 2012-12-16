@@ -1,280 +1,402 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: michael
- * Date: 8/14/12
- * Time: 11:06 AM
- * To change this template use File | Settings | File Templates.
+ * InfusedAuth is an add on to SimpleAuth
+ * @package    InfusedAuth
+ * @version    1.0
+ * @author     Michael Bneder
+ * @license    Commercial License
+ * @copyright  2012 Infused Industries, Inc.
+ * @link       http://sociablegroup.com
  */
 
 namespace InfusedAuth;
 
-/**
- * Baseline for implementing an authentication controller in your application using InfusedAuth.
- *
- * You must create a controller that extends this controller such
- *     class Controller_Auth extends \InfusedAuth\Controller_InfusedAuth
- *
- * Usage:
- * You can use the built in view scaffolding by default or create your views and link actions as follows:
- * 3rd party login = /session/provider //see NinjAuth for more details
- * properitery login = just post back to same script. you can override posthandler_login and posthandler_register to customize
- * forgot password = /reset_password
- * resend validation = /send_validation
- *      - requires post values of username which is username_or_email and password
- *
- * Customizing Validation
- * coming soon... TODO: Add validation customization info
- */
-class Controller_InfusedAuth extends \NinjAuth\Controller
+use Auth;
+
+class Controller_Infusedauth extends \Controller_Hybrid
 {
-    public function before()
-    {
-        parent::before();
+    public static $linked_redirect = 'admin';
+    public static $login_redirect = 'admin';
+    public static $register_redirect = 'auth/register';
+    public static $registered_redirect = 'admin';
 
-        // Since we can not extend more than one class at a time this is copied from Controller_Base and should be kept
-        // in sync until a better way is determined.
-        //
-        // Assign current_user to the instance so controllers can use it
-        $user_screen_name = \Auth::instance()->get_screen_name();
-        $user = \Model_User::find_by_username($user_screen_name);
-        $this->current_user = \Auth::instance()->check() ? $user : null;
-        // Set a global variable so views can use it
-        \View::set_global('current_user', $this->current_user);
-        if(!empty($this->current_user)) \View::set_global('profile_fields', $this->current_user->profile_fields());
-
-        // Load the configuration for this provider and overwrite default configurations from the NinjAuth package
-        \Config::load('simpleauth',true,true,false);
-        \Config::load('ninjauth',true,true,false);
-        \Config::load('infusedauth',true,true,false);
-
-        self::$linked_redirect = \Config::get('infusedauth.urls.linked_redirect','/');
-        self::$login_redirect = \Config::get('infusedauth.urls.login_redirect','/');
-        self::$register_redirect = \Config::get('infusedauth.urls.register_redirect','/');
-        self::$registered_redirect = \Config::get('infusedauth.urls.registered_redirect','/');
-    }
+    public $template = 'template';  //todo: Make configurable
 
     /**
-     * Defaults to login view
+     * Controller method preparations
+     *
+     * @return  void
      */
-    public function action_index()
+    public function before()
     {
-        // @TODO: Implement base controller index
-        \Response::redirect(\Uri::string().'/login');
-    }
+        // already logged in?
+        if (\Auth::check() and \Request::active()->action != 'logout')
+        {
+            //\Messages::error('You are already logged in');
+            //\Response::redirect(\Input::post('redirect_to', '/'));
+            \Session::set_flash('success','You are already logged in');
+            \Response::redirect('admin');    //todo: make configurable
+        }
 
-    //-------------------------------------------------------------------------------
-    // Login related functionality
-    //-------------------------------------------------------------------------------
+        parent::before();
+    }
 
     public function action_login()
     {
-        if(\Auth::instance()->check()){
-            \Response::redirect(self::$login_redirect);
-        }
+        // create the form fieldset, do not add an {open}, a closing ul and a {close}, we have a custom form layout!
+        $fieldset = \Fieldset::forge('login');
+        $fieldset->add('username', 'Username', array('maxlength' => 50), array(array('required')))
+            ->add('password', 'Password', array('type' => 'password', 'maxlength' => 255), array(array('required'), array('min_length', 8)));
 
-        $login_fieldset = \Fieldset::forge('login');
-        $fields = \Config::get('infusedauth.fieldsets.login',null);
-        if(empty($fields)) throw new \Exception('The infusedauth.fieldsets.login configuration is required.');
-        for($i=0;$i<count($fields);$i++){
-            $login_fieldset->add($fields[$i]['name'],$fields[$i]['label'],$fields[$i]['attributes'],$fields[$i]['rules']);
-        }
-
-        if(\Request::active()->get_method() == "POST" && \Auth::instance()->login(\Input::post('email'),\Input::post('password'))){
-            $next_location = (\Session::get('next_url',false)) ?  \Session::get('next_url') : \Config::get('infusedauth.urls.login_redirect','/');
-            \Response::redirect($next_location);
-        }elseif(\Request::active()->get_method() == "POST" && ($user = \Auth::instance()->validate_tempuser(\Input::post('email'),\Input::post('password')))){
-            return $this->verification_pending_view(array('user'=>(object)$user));
-        }elseif(\Request::active()->get_method() == "POST"){
-             \Session::set_flash('error','Invalid username or password');
-        }
-
-
-        $login_fieldset->populate(\Input::post());
-        $data['providers'] = \Config::get('ninjauth.providers');
-        $data['login_fieldset'] = $login_fieldset;
-        return $this->login_view($data);
-    }
-
-    /**
-     * Override this function to customize the login view generation such as for themes or customized views outside
-     * the scope of just setting the location to your view file in the config setting.
-     * @param $data View data. Recommend you add data to this vs. overwrite.
-     * @return mixed
-     */
-    public function login_view($data)
-    {
-        return \View::forge(\Config::get('infusedauth.views.login','login'), $data);
-    }
-
-    //-------------------------------------------------------------------------------
-    // Registration related functionality
-    //-------------------------------------------------------------------------------
-
-    public function action_register()
-    {
-        if(\Auth::instance()->check() && !\Session::get('ninjauth',false)){
-            \Response::redirect(self::$login_redirect);
-        }
-
-        // Build fieldset and send to create view hook
-        $registration_fieldset = \Fieldset::forge('register');
-        $fields = \Config::get('infusedauth.fieldsets.register',null);
-        if(empty($fields)) throw new \Exception('The infusedauth.fieldsets.register configuration is required.');
-        for($i=0;$i<count($fields);$i++){
-            $registration_fieldset->add($fields[$i]['name'],$fields[$i]['label'],$fields[$i]['attributes'],$fields[$i]['rules']);
-        }
-
-        //@TODO: Add code to catch NinjAuth session data to determine if additional info is needed to complete registration
-        // Check for NinjAuth session. If exists it means we were unable to autologin and create the user so some
-        // mapping or additional fields must be required.
-        if($ninjauth = \Session::get('ninjauth',false)){
-            $user = $ninjauth['user'];
-            $authentication = $ninjauth['authentication'];
-        }
-
-        if(\Request::active()->get_method() == "POST")
+        // was the login form posted?
+        if (\Input::post())
         {
-            // Validate data
-            if($registration_fieldset->validation()->run())
+            // deal with the login type
+            switch (\Input::post('btnSubmit', false))   // Turn btnSubmit into a configuration setting
             {
-                // Create user
-                $username = \Input::post('username',false) ? \Input::post('username') : \Input::post('email');
-                $password = \Input::post('password');
-                $email = \Input::post('email',false) ? \Input::post('email') : '';
-                $group = \Config::get('ninjauth.default_group',1);
-                $profile_fields = $this->build_profile_fields(\Input::post(),\Config::get('infusedauth.profile_fields',false));
-                try{
-                    if($user = \Auth::instance()->create_user($username,$password,$email,$group,$profile_fields))
+                case 'Login':
+                    // run the form validation
+                    if ( ! $fieldset->validation()->run())
                     {
-                        // Check to see if it is a temp user
-                        if(is_subclass_of($user,'InfusedAuth\Model_TempUser')){
-                            // Show verification pending view
-                            return $this->verification_pending_view(array('user'=>$user));
-                        }elseif(is_subclass_of($user,'InfusedAuth\Model_User')){
-                            if(\Auth::instance()->force_login($user->id))
-                                \Response::redirect(\Config::get('infusedauth.urls.registered_redirect','/'));
-                            \Log::error('Unable to force user login. Please try to login');
-                            \Response::redirect('login');
-                        }else{
-                            throw new \Fuel\Core\FuelException('User must extend \InfusedAuth\Model_User and \InfusedAuth\Model_TempUser');
+                        // set any error messages we need to display
+                        foreach ($fieldset->validation()->error() as $error)
+                        {
+                            \Session::set_flash('error','Please fix errors in the form.');
                         }
-
                     }
-                }
-                catch(\Auth\SimpleUserUpdateException $e)
-                {
-                    \Session::set_flash('error',$e->getMessage());
-                }
-                catch(\Fuel\Core\FuelException $e){
-                    \Log::error('infusedauth controller: '.$e->getMessage());
-                    \Session::set_flash('error',$e->getMessage());
-                }
-            };
-        }
+                    else
+                    {
+                        // create an Auth instance
+                        $auth = \Auth::instance();
 
-        $registration_fieldset->populate(\Input::post());
-        $data['providers'] = \Config::get('ninjauth.providers');
-        $data['registration_fieldset'] = $registration_fieldset;
-        return $this->registration_view($data);
-    }
+                        // check the credentials.
+                        if ($auth->login(\Input::param('username'), \Input::param('password')))
+                        {
+                            \Response::redirect('admin');    //todo:make configurable
+                        }
+                        else
+                        {
+                            if(\Config::get('infusedauth.account_validation',false))
+                            {
+                                if($user = $auth->validate_temp_user(\Input::param('username'),\Input::param('password'))){
+                                    return $this->action_verification_required($user['id']);
+                                }
+                            }
+                            \Session::set_flash('error','Username and/or password is incorrect');
+                        }
+                    }
+                    break;
 
-    /**
-     * Override this function to customize the login view generation such as for themes or customized views outside
-     * the scope of just setting the location to your view file in the config setting.
-     * @param $data View data. Recommend you add data to this vs. overwrite.
-     * @return mixed
-     */
-    public function registration_view($data)
-    {
-        return \View::forge(\Config::get('infusedauth.views.register','register'), $data);
-    }
-
-    /**
-     * @param $all_fields This is the Input::post() values for the submitted registration form
-     * @param $profile_fields This ist he configuration value that identifies which fields to include in the profile
-     * @return $profile Array of fields.
-     */
-    protected function build_profile_fields($all_fields,$profile_fields)
-    {
-        $profile = array();
-        for($i=0;$i<count($profile_fields);$i++){
-            if(array_key_exists($profile_fields[$i]['form_field_name'],$all_fields)){
-                $profile[$profile_fields[$i]['name']] = $all_fields[$profile_fields[$i]['form_field_name']];
+                default:
+                    $provider = strtolower(\Input::post('btnSubmit'));
+                    \Package::load('ninjauth');
+                    \Response::redirect(\Uri::create('session/'.$provider));
+                    break;
             }
         }
-        return $profile;
+
+        // set the login page content partial
+        //\Theme::instance()->set_partial('content', 'users/login/index')->set('fieldset', $fieldset, false);
+        //$fieldset->add('btnSubmit','',array('type'=>'submit', 'class'=>'btn', 'colspan'=>2, 'value'=>'Login'));
+        $this->template->title = 'Login';
+        $this->template->content = \View::forge('login',array('fieldset'=>$fieldset,'providers'=>\Config::get('ninjauth.providers',false)));
+
     }
 
     public function action_logout()
     {
-        \Auth::instance()->logout();
-        \Response::redirect(\Config::get('infusedauth.urls.logout_redirect','/'));
+        $auth = \Auth::instance()->logout();
+        \Session::delete('ninjauth');
+        \Response::redirect('auth/login');
     }
 
-    //------------------------------------
-    // ACCOUNT VERIFICATION
-    //------------------------------------
-    public function verification_pending_view($data)
+    public function action_register()
     {
-        return \View::forge(\Config::get('infusedauth.views.verification_pending','registration_success'), $data);
-    }
+        // If a user clicked on a Login with Third Party button, redirect them appropriately.
+        // create the form fieldset, do not add an {open}, a closing ul and a {close}, we have a custom form layout!
+        $fieldset = \Fieldset::forge('register');
+        $fieldset->add('username', 'Username', array('maxlength' => 50), array(array('required')))
+            ->add('full_name', 'Full Name', array('maxlength' => 150), array(array('required')))
+            ->add('email', 'Email', array('maxlength' => 255), array(array('required'), array('valid_email')))
+            ->add('password', 'Password', array('type' => 'password', 'maxlength' => 255), array(array('required'), array('min_length', 8)));
 
-    public function action_verify($code1=null,$code2=null)
-    {
-        if(empty($code1) or empty($code2))
+        // see if we have a registration via a third-party provider
+        $user_hash = \Session::get('ninjauth.user', false);
+        $authentication = \Session::get('ninjauth.authentication');
+        $third_party = false;
+        if($user_hash AND $authentication)
         {
-            \Request::show_404();
+            $third_party = true;
+            // set required values for registration
+            $full_name = \Input::post('full_name') ?: \Arr::get($user_hash, 'name');
+            $username = \Input::post('username',\Arr::get($user_hash, 'nickname')) ?: $user_hash['name'];
+            $email = \Input::post('email') ?: \Arr::get($user_hash, 'email');
+            $password = \Input::post('password') ?: \Arr::get($authentication, 'uid');
+        }
+        else
+        {
+            // set required values for registration
+            $full_name = \Input::post('full_name');
+            $username = \Input::post('username');
+            $email = \Input::post('email');
+            $password = \Input::post('password');
         }
 
-        try{
-            $user = \Auth::instance()->verify($code1,$code2);
-            if($user !== FALSE)
+        $user_id = false;
+
+
+        // Do we have enough info to register a new user?
+        if($fieldset->validation()->run(array('full_name'=>$full_name,'username'=>$username,'email'=>$email,'password'=>$password)))
+        {
+            //Create the new user
+            try
             {
-                if(\Auth::instance()->force_login($user->id)){
-                    \Session::set_flash('success','Thank you for verifying your account.');
-                    \Response::redirect(\Config::get('infusedauth.urls.login_redirect','/'));
-                }else{
-                    \Session::set_flash('success','Thank you for verifying your account.');
-                    $uri_path = \Uri::segments();
-                    array_pop($uri_path);
-                    array_pop($uri_path);
-                    array_pop($uri_path);
-                    \Response::redirect(implode('/',$uri_path).'/login');
+                $user_id = \Auth::instance()->create_user(
+                    $username,
+                    $password,
+                    $email,
+                    \Config::get('infusedauth.default_group'),
+                    array(
+                        'full_name' => $full_name
+                    ),
+                    $third_party
+                );
+            }
+            catch(SimpleUserValidationException $e)
+            {
+                if($e->user_id != ''){
+                    $user_id = $e->user_id;
+
                 }
+                \Session::set_flash('error',$e->getMessage());
+            }
+
+            catch(InfusedAuthException $e)
+            {
+                if($e->user_id != ''){
+                    $user_id = $e->user_id;
+
+                }
+                \Session::set_flash('error',$e->getMessage());
+            }
+
+            if($user_id !== false)
+            {
+                // User was created successfully
+
+                // If this was a third party registration lets add it to the user
+                if($user_hash and $authentication)
+                {
+                    try{
+                        \Auth::instance()->add_authentication($user_id,$user_hash,$authentication);
+                    }
+                    catch(InfusedAuthException $e)
+                    {
+                        \Session::set_flash('error',$e->getMessage());
+                    }
+
+                }
+
+                // Redirect based on account validation requirements
+                if(\Config::get('infusedauth.account_validation',false) and (\Auth::instance()->validate_temp_user($username,$password) !== false))
+                {
+                    return $this->action_verification_required($user_id);
+                }
+
+                else
+                {
+                    if(\Auth::login($username,$password)){
+                        \Response::redirect(\Config::get('infusedauth.urls.registered'));
+                    }
+                }
+            }
+        }
+        else
+        {
+           // \Session::set_flash('error',$fieldset->validation->show_errors());
+        }
+
+        // Load registration form
+
+        $fieldset->populate(\Input::post());
+        $this->template->title = "Register";
+        $this->template->content = \View::forge("register",array('fieldset'=>$fieldset,'providers'=>\Config::get('ninjauth.providers',false)));
+    }
+
+    public function action_verification_required($user_id)
+    {
+        $this->template->title = null;
+        $this->template->content = \View::forge(
+            'registration_success',
+            array('user_id' => $user_id,
+                'resend_action' => \Config::get('infusedauth.urls.resend_verification_request')
+            )
+        );
+    }
+
+    public function action_verify($code1,$code2)
+    {
+        if($user = \Auth::instance()->verify($code1,$code2))
+        {
+            \Auth::instance()->force_login($user->id);
+            \Session::set_flash('success','Thank you for verifying your account.');
+            \Response::redirect(\Config::get('infusedauth.urls.registered','admin'));
+        }
+
+        $this->template->title = "Verification error";
+        $this->template->content = \View::forge('verification_failed');
+    }
+
+    public function action_resend_verification_request()
+    {
+        if(\Input::is_ajax())
+        {
+            $user_id = \Input::post('user_id',false);
+            if(empty($user_id)) exit(json_encode(array('success'=>0)));
+
+            $user = Model_Temp_User::find($user_id);
+            if(empty($user)) exit(json_encode(array('success'=>0)));
+
+            try{
+                \Auth::instance()->send_validation($user_id);
+            }
+
+            catch(\FuelException $e)
+            {
+                exit(json_encode(array('success'=>0)));
+            }
+
+            exit(json_encode(array('success'=>1,'email'=>$user->email)));
+        }
+
+        return "AJAX only";
+    }
+
+    public function action_reset()
+    {
+        $fieldset = \Fieldset::forge('reset');
+        $fieldset->add('email', 'Email', array('maxlength' => 150), array(array('required')));
+
+        if (\Input::post())
+        {
+            if ( ! $fieldset->validation()->run())
+            {
+                \Session::set_flash('error','Please fix errors in the form.');
             }
             else
             {
-                \Session::set_flash('error','Sorry but we failed to validate your user account. You can try signing up again. If you continue running into problems please contact support.');
-                $uri_path = \Uri::segments();
-                array_pop($uri_path);
-                array_pop($uri_path);
-                array_pop($uri_path);
-                \Response::redirect(implode('/',$uri_path).'/register');
+                $user = \Model_User::find('first',array('where'=>array('email'=>\Input::post('email'))));
+
+                if(empty($user))
+                {
+                    \Session::set_flash('error','We could not find a user with username or email of '.\Input::post('username'));
+                }
+
+                elseif($providers = \DB::select('*')->where('user_id','=',$user->id)->from('authentications')->execute()->as_array())
+                {
+                    \Session::set_flash('error','This account is linked to '.$providers[0]['provider'].' so we can not reset the password. Please login with '.$providers[0]['provider']);
+                }
+
+                else
+                {
+                    try{
+                        $new_password = \Auth::reset_password($user->username);
+                        \Package::load('email');
+                        $email = \Email::forge();
+                        $email->from(\Config::get('email.defaults.from.email',false),\Config::get('email.deafaults.from.name',false));
+                        $email->to($user->email);
+                        $email->subject('Your '.\Config::get('app.name','').' account password has been reset.');
+                        $email->html_body(\View::forge('reset_password_email',array('user'=>$user,'new_password'=>$new_password)));
+                        try{
+                            $email->send();
+                        }
+
+                        catch(\EmailValidationFailedException $e){
+                            \Session::set_flash('error','We were unable to reset your password. Please try again later.');
+                        }
+                        catch(\EmailSendingFailedException $e){
+                            \Session::set_flash('error','We were unable to reset your password. Please try again later.');
+                        }
+                    }
+
+                    catch(\SimpleUserUpdateException $e)
+                    {
+                        \Session::set_flash('error','We were unable to reset your password. Please try again later.');
+                    }
+
+                    $error = \Session::get_flash('error',null);
+                    if(empty($error))
+                    {
+                        $this->template->title = '';
+                        $this->template->content = \View::forge('reset_success',array('user'=>$user));
+                        return;
+                    }
+                }
             }
         }
-        catch(\Exception $e)
+
+        $this->template->title = 'Reset Password';
+        $this->template->content = \View::forge('reset_password',array('fieldset'=>$fieldset,'providers'=>\Config::get('ninjauth.providers',false)));
+
+    }
+
+    /**
+     * Alias for NinjAuth function. Doing this instead of extending NinjAuth controller so that NinjAuth
+     * is not required for InfusedAuth to function.
+     */
+    public function action_session($provider = null)
+    {
+        \Config::load('ninjauth',true,true,true);
+        //\NinjAuth\Controller::action_session($provider);
+        $url = \NinjAuth\Strategy::forge($provider)->authenticate();
+        \Response::redirect($url);
+    }
+
+    /**
+     * Alias for NinjAuth function. Doing this instead of extending NinjAuth controller so that NinjAuth
+     * is not required for InfusedAuth to function.
+     */
+    public function action_callback($provider)
+    {
+        \Config::load('ninjauth',true,true,true);
+        try
         {
-            \Log::error('infuasedauth conroller: '.$e->getMessage());
-            \Session::set_flash('error',$e->getMessage());
+            // Whatever happens, we're sending somebody somewhere
+            $status = \NinjAuth\Strategy::forge($provider)->login_or_register();
+            \Log::error($status);
+            // Stuff should go with each type of response
+            switch ($status)
+            {
+                case 'linked':
+                    $message = 'You have linked '.$provider.' to your account.';
+                    $url = static::$linked_redirect;
+                    break;
+
+                case 'logged_in':
+                    $message = 'You have logged in.';
+                    $url = static::$login_redirect;
+                    break;
+
+                case 'registered':
+                    $message = 'You have logged in with your new account.';
+                    $url = static::$registered_redirect;
+                    break;
+
+                case 'register':
+                    $message = 'Please fill in any missing details and add a password.';
+                    $url = static::$register_redirect;
+                    break;
+
+                default:
+                    exit('Strategy::login_or_register() has come up with a result that we dont know how to handle.');
+            }
+
+            \Response::redirect($url);
         }
 
+        catch (AuthException $e)
+        {
+            exit($e->getMessage());
+        }
     }
-
-    public function action_send_validation_request()
-    {
-        $user = \Auth::instance()->send_validation(\Input::post('user_id'));
-        return json_encode(array('success'=>'true','email'=>$user->email));
-    }
-
-    public function action_wall(){
-        return $this->wall_view(null);
-    }
-
-    public function wall_view($data){
-        return \View::forge('wall',$data);
-    }
-
-
-
 }

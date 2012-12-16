@@ -1,9 +1,19 @@
 <?php
+/**
+ * InfusedAuth is an add on to SimpleAuth
+ * @package    InfusedAuth
+ * @version    1.0
+ * @author     Michael Bneder
+ * @license    Commercial License
+ * @copyright  2012 Infused Industries, Inc.
+ * @link       http://sociablegroup.com
+ */
 
 namespace InfusedAuth;
 
-class Model_User extends \Orm\Model
+class Model_Temp_User extends \Orm\Model
 {
+    protected static $_table_name = 'users_temp';
 
     protected static $_properties = array(
         'id',
@@ -11,9 +21,9 @@ class Model_User extends \Orm\Model
         'password',
         'group',
         'email',
-        'last_login',
-        'login_hash',
         'profile_fields',
+        'validation_code1',
+        'validation_code2',
         'created_at',
         'updated_at'
     );
@@ -28,5 +38,4 @@ class Model_User extends \Orm\Model
             'mysql_timestamp' => false,
         ),
     );
-
 }
